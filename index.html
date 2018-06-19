@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Sponsorships</title>
+    <link rel="stylesheet" href="./note.css">
     <link rel="stylesheet" href="./index.css">
   </head>
 
@@ -87,10 +88,17 @@
       </main>
     </div>
 
+    <script src="./note.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
     <script>
       (function(){
-        new ClipboardJS('.js-clipboard')
+        const note = new Note({})
+
+       clipboard =  new ClipboardJS('.js-clipboard')
+
+        clipboard.on('success', function(e) {
+          note.info('Code copied!', e.text);
+        })
       }())
     </script>
   </body>
