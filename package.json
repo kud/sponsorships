@@ -1,0 +1,22 @@
+{
+  "name": "sponsorship-page",
+  "version": "1.0.0",
+  "description": "",
+  "main": "note.min.js",
+  "scripts": {
+    "start": "http-server"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kud/sponsorship-page.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kud/sponsorship-page/issues"
+  },
+  "homepage": "https://github.com/kud/sponsorship-page#readme",
+  "devDependencies": {
+    "http-server": "0.11.1"
+  }
+}
