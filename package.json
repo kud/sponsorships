@@ -1,22 +1,27 @@
 {
-  "name": "sponsorship-page",
-  "version": "1.0.0",
-  "description": "",
-  "main": "note.min.js",
+  "name": "sponsorships",
+  "version": "0.1.0",
+  "private": true,
   "scripts": {
-    "start": "http-server"
+    "clean": "rm -rf .next dist",
+    "prestart": "npm run clean",
+    "start": "next dev",
+    "prebuild": "npm run clean",
+    "build": "next build",
+    "preexport": "npm run build",
+    "export": "next export -o dist",
+    "serve": "npm run export && serve dist",
+    "deploy": "npm run export && gh-pages --dotfiles -d dist -b gh-pages"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/kud/sponsorship-page.git"
+  "dependencies": {
+    "next": "9.4.4",
+    "normalize.css": "8.0.1",
+    "react": "16.13.1",
+    "react-dom": "16.13.1"
   },
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/kud/sponsorship-page/issues"
-  },
-  "homepage": "https://github.com/kud/sponsorship-page#readme",
   "devDependencies": {
-    "http-server": "0.11.1"
+    "@emotion/core": "10.0.28",
+    "@emotion/styled": "10.0.27",
+    "webpack-merge": "4.2.2"
   }
 }
