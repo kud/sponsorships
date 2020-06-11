@@ -30,8 +30,9 @@ Header.Heading.Strong = styled.strong`
 `
 
 const Main = styled.main`
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
 `
 
 const Aside = styled.aside`
@@ -43,6 +44,8 @@ const Aside = styled.aside`
 `
 
 const Item = styled.article`
+  width: 100%;
+  max-width: 300px;
   border-radius: 4px;
   background-color: #fff;
   margin: 1rem 2rem;
