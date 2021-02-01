@@ -83,7 +83,7 @@ export const getStaticProps = async () => {
     url: "https://sponsorships.kud.io/",
     title: "Get Sponsorships | _kud",
     description: "Get some vouchers for different platforms.",
-    previeww: "https://sponsorships.kud.io/preview.jpg",
+    preview: "https://sponsorships.kud.io/preview.jpg",
     keywords:
       "sponsorships,discount,price,code,promo,voucher,vouchers,sponsorship,price,groslot,reduction,prix",
   }
