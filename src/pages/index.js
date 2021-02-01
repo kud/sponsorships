@@ -12,6 +12,12 @@ const globalStyles = css`
   }
 `
 
+const Root = styled.div`
+  padding: 0 4rem;
+  max-width: 1280px;
+  margin: auto;
+`
+
 const Header = styled.header`
   padding: 1rem 2rem;
 `
@@ -19,12 +25,13 @@ const Header = styled.header`
 Header.Heading = styled.h1`
   font-size: 2rem;
   font-weight: 400;
+  color: #bfbfbf;
 `
 
 Header.Heading.Strong = styled.strong`
   font-family: Monaco, "Andale Mono", "DejaVu Sans Mono", "Courier New", Courier,
     monospace;
-  color: #bfbfbf;
+  color: #332f;
   font-size: 0.9em;
   font-weight: 200;
 `
@@ -188,38 +195,40 @@ const IndexPage = ({ items, meta }) => {
         <meta name="twitter:image" content={meta.preview} key="twitterImage" />
       </Head>
 
-      <Header>
-        <Header.Heading>
-          Get <Header.Heading.Strong>sponsorships</Header.Heading.Strong>
-        </Header.Heading>
-      </Header>
+      <Root>
+        <Header>
+          <Header.Heading>
+            Get <Header.Heading.Strong>sponsorships</Header.Heading.Strong>
+          </Header.Heading>
+        </Header>
 
-      <Aside>
-        <p>
-          Hello and welcome to my sponsorship page. Each box represents a
-          sponsorship.
-        </p>
-        <p>
-          Just note that when you click on one, it'll open a new tab and -
-          depending on the sponsorship - will also copy the code in the
-          clipboard. Enjoy! 🙌
-        </p>
-      </Aside>
+        <Aside>
+          <p>
+            Hello and welcome to my sponsorship page. Each box represents a
+            sponsorship.
+          </p>
+          <p>
+            Just note that when you click on one, it'll open a new tab and -
+            depending on the sponsorship - will also copy the code in the
+            clipboard. Enjoy! 🙌
+          </p>
+        </Aside>
 
-      <Main>
-        {items.map(({ name, code, url }) => (
-          <Item
-            key={name}
-            onClick={() => {
-              handleClick({ name, code, url })
-            }}
-          >
-            <Item.Code>{code ? code : "Direct link 🔗"}</Item.Code>
+        <Main>
+          {items.map(({ name, code, url }) => (
+            <Item
+              key={name}
+              onClick={() => {
+                handleClick({ name, code, url })
+              }}
+            >
+              <Item.Code>{code ? code : "Direct link 🔗"}</Item.Code>
 
-            <Item.Heading>{name}</Item.Heading>
-          </Item>
-        ))}
-      </Main>
+              <Item.Heading>{name}</Item.Heading>
+            </Item>
+          ))}
+        </Main>
+      </Root>
     </>
   )
 }
