@@ -1,6 +1,6 @@
 import Head from "next/head"
 import styled from "@emotion/styled"
-import { Global, css } from "@emotion/core"
+import { Global, css } from "@emotion/react"
 
 const globalStyles = css`
   html,
@@ -72,6 +72,15 @@ Item.Heading = styled.h2`
 `
 
 export const getStaticProps = async () => {
+  const meta = {
+    url: "https://sponsorships.kud.io/",
+    title: "Get Sponsorships | _kud",
+    description: "Get some vouchers for different platforms.",
+    previeww: "https://sponsorships.kud.io/preview.jpg",
+    keywords:
+      "sponsorships,discount,price,code,promo,voucher,vouchers,sponsorship,price,groslot,reduction,prix",
+  }
+
   const items = [
     {
       name: "WeSave",
@@ -128,11 +137,12 @@ export const getStaticProps = async () => {
   return {
     props: {
       items,
+      meta,
     },
   }
 }
 
-const IndexPage = ({ items }) => {
+const IndexPage = ({ items, meta }) => {
   const handleClick = async ({ code, url }) => {
     await navigator.clipboard.writeText(code)
 
@@ -144,9 +154,38 @@ const IndexPage = ({ items }) => {
       <Global styles={globalStyles} />
 
       <Head>
-        <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width" />
-        <title>Get Sponsorships | _kud</title>
+        <meta charSet="utf-8" />
+        <title>{meta.title}</title>
+        <meta
+          name="viewport"
+          content="initial-scale=1.0, width=device-width, user-scalable=no"
+        />
+        <meta name="description" content={meta.description} key="description" />
+        <meta name="keywords" content={meta.keywords} />
+
+        <meta property="og:type" content="website" key="ogType" />
+        <meta property="og:url" content={meta.url} key="ogUrl" />
+        <meta property="og:title" content={meta.title} key="ogTitle" />
+        <meta
+          property="og:description"
+          content={meta.description}
+          key="ogDescription"
+        />
+        <meta property="og:image" content={meta.preview} key="ogImage" />
+
+        <meta
+          name="twitter:card"
+          content="summary_large_image"
+          key="twitterCard"
+        />
+        <meta name="twitter:url" content={meta.url} key="twitterUrl" />
+        <meta name="twitter:title" content={meta.title} key="twitterTitle" />
+        <meta
+          name="twitter:description"
+          content={meta.description}
+          key="twitterDescription"
+        />
+        <meta name="twitter:image" content={meta.preview} key="twitterImage" />
       </Head>
 
       <Header>
@@ -156,10 +195,15 @@ const IndexPage = ({ items }) => {
       </Header>
 
       <Aside>
-        Hello and welcome to my sponsorship page. Each box represents a
-        sponsorship. Just note that if you click on one, it'll open a new tab
-        and - depending on the sponsorship - will copy the code in the
-        clipboard. Enjoy! 🙌
+        <p>
+          Hello and welcome to my sponsorship page. Each box represents a
+          sponsorship.
+        </p>
+        <p>
+          Just note that when you click on one, it'll open a new tab and -
+          depending on the sponsorship - will also copy the code in the
+          clipboard. Enjoy! 🙌
+        </p>
       </Aside>
 
       <Main>
@@ -170,7 +214,7 @@ const IndexPage = ({ items }) => {
               handleClick({ name, code, url })
             }}
           >
-            <Item.Code>{code ? code : "🔗"}</Item.Code>
+            <Item.Code>{code ? code : "Direct link 🔗"}</Item.Code>
 
             <Item.Heading>{name}</Item.Heading>
           </Item>

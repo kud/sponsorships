@@ -1,6 +1,5 @@
 const path = require("path")
-const merge = require("webpack-merge")
-const isProd = process.env.NODE_ENV === "production"
+const { merge } = require("webpack-merge")
 
 module.exports = {
   webpack: (config) =>
