@@ -1,6 +1,12 @@
 import Head from "next/head"
 import styled from "@emotion/styled"
 import { Global, css } from "@emotion/react"
+import { Client } from "@notionhq/client"
+
+const NOTION_API_KEY = process.env.NOTION_API_KEY
+const NOTION_DATABASE_ID = process.env.NOTION_DATABASE_ID
+
+const notion = new Client({ auth: NOTION_API_KEY })
 
 const globalStyles = css`
   html,
@@ -88,64 +94,32 @@ export const getStaticProps = async () => {
       "sponsorships,discount,price,code,promo,voucher,vouchers,sponsorship,price,groslot,reduction,prix",
   }
 
-  const items = [
-    {
-      name: "WeSave",
-      code: "EM9A77",
-      url: "https://www.wesave.fr/",
-    },
-    {
-      name: "Yomoni",
-      code: "ERWANN05",
-      url: "https://www.yomoni.fr/",
-    },
-    {
-      name: "Yespark",
-      code: "PAR61113",
-      url: "https://www.yespark.fr/",
-    },
-    {
-      name: "FoodChéri",
-      code: "333S0A",
-      url: "https://www.foodcheri.com/",
-    },
-    {
-      name: "Airbnb",
-      code: "emest1",
-      url: "https://www.airbnb.fr/",
-    },
-    {
-      name: "Boursorama",
-      url: "https://bour.so/JBcDsxX",
-    },
-    {
-      name: "shadow.tech",
-      code: "ERWPQXPP",
-      url: "https://shadow.tech/frfr/",
-    },
-    {
-      name: "Todoist",
-      url: "https://todoist.com/r/kud_wjkice",
-    },
-    {
-      name: "Alan",
-      url: "https://love.alan.com/vevizibe",
-    },
-    {
-      name: "Notion",
-      url: "https://www.notion.so/?r=aaae4853920a4fdb9ec04ebb894cec06",
-    },
-    {
-      name: "Sync.com",
-      url: "http://www.sync.com/get-started?_sync_refer=67c2e60",
-    },
-  ]
+  const database = await notion.databases.query({
+    database_id: NOTION_DATABASE_ID,
+  })
+
+  const rawPages = database.results
+
+  const pagePromises = rawPages.map(async ({ id }) => {
+    const page = await notion.pages.retrieve({ page_id: id })
+
+    return {
+      name:
+        page.properties.name[page.properties.name.type][0]?.plain_text || null,
+      code:
+        page.properties.code[page.properties.code.type][0]?.plain_text || null,
+      url: page.properties.url[page.properties.url.type][0]?.plain_text || null,
+    }
+  })
+
+  const items = await Promise.all(pagePromises)
 
   return {
     props: {
       items,
       meta,
     },
+    revalidate: 1,
   }
 }
 
@@ -204,13 +178,13 @@ const IndexPage = ({ items, meta }) => {
 
         <Aside>
           <p>
-            Hello and welcome to my sponsorship page. Each box represents a
-            sponsorship.
+            {`Hello and welcome to my sponsorship page. Each box represents a
+            sponsorship.`}
           </p>
           <p>
-            Just note that when you click on one, it'll open a new tab and -
+            {`Just note that when you click on one, it'll open a new tab and -
             depending on the sponsorship - will also copy the code in the
-            clipboard. Enjoy! 🙌
+            clipboard. Enjoy! 🙌`}
           </p>
         </Aside>
 
