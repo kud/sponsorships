@@ -2,6 +2,7 @@ import Head from "next/head"
 import styled from "@emotion/styled"
 import { Global, css } from "@emotion/react"
 import { Client } from "@notionhq/client"
+import toast, { Toaster } from "react-hot-toast"
 
 const NOTION_API_KEY = process.env.NOTION_API_KEY
 const NOTION_DATABASE_ID = process.env.NOTION_DATABASE_ID
@@ -24,12 +25,41 @@ const Root = styled.div`
   margin: auto;
 `
 
+const Hero = styled.div`
+  width: 100vw;
+  max-width: 100vw;
+  margin: 2rem 0 0 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  border-radius: 0;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+  background: #fff;
+  min-height: 220px;
+  max-height: 300px;
+  height: 300px;
+  position: relative;
+  left: 50%;
+  right: 50%;
+  margin-left: -50vw;
+  margin-right: -50vw;
+`
+
+Hero.Image = styled.img`
+  width: 100%;
+  height: 100%;
+  max-height: 300px;
+  object-fit: cover;
+  display: block;
+`
+
 const Header = styled.header`
   padding: 1rem 2rem;
 `
 
 Header.Heading = styled.h1`
-  font-size: 2rem;
+  font-size: 3rem;
   font-weight: 400;
   color: #bfbfbf;
 `
@@ -56,7 +86,7 @@ const Aside = styled.aside`
   font-style: italic;
 `
 
-const Item = styled.article`
+const Item = styled.a`
   width: 100%;
   max-width: 300px;
   border-radius: 4px;
@@ -65,6 +95,8 @@ const Item = styled.article`
   transition: box-shadow 300ms ease;
   box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.04),
     0 3px 1px -2px rgba(0, 0, 0, 0.04), 0 1px 5px 0 rgba(0, 0, 0, 0.04);
+  text-decoration: none;
+  color: #404040;
 
   &:hover {
     box-shadow: 0 10px 15px rgba(0, 0, 0, 0.15);
@@ -72,16 +104,19 @@ const Item = styled.article`
   }
 `
 
-Item.Code = styled.div`
+Item.Code = styled.span`
   color: #737373;
   padding: 2rem 2rem;
+  display: block;
 `
 
-Item.Heading = styled.h2`
+Item.Heading = styled.span`
   padding: 1rem 2rem;
   margin: 0;
   background-color: #fbfbfb;
   font-weight: 400;
+  display: block;
+  font-size: 1.5rem;
 `
 
 export const getStaticProps = async () => {
@@ -91,7 +126,7 @@ export const getStaticProps = async () => {
     description: "Get some vouchers for different platforms.",
     preview: "https://sponsorships.kud.io/preview.jpg",
     keywords:
-      "sponsorships,discount,price,code,promo,voucher,vouchers,sponsorship,price,groslot,reduction,prix",
+      "sponsorships, discount, price, code, promo, voucher, vouchers, sponsorship, price, groslot, reduction, prix, partnership, offer, savings, coupon, deal, special, discount code, promotional offer, cashback, loyalty, rewards, clearance, sale, limited time, exclusive, online shopping, e-commerce, savings, budget-friendly, affordable, bargain, markdown, price drop, special offer, promotional code, discount voucher",
   }
 
   const database = await notion.databases.query({
@@ -124,10 +159,10 @@ export const getStaticProps = async () => {
 }
 
 const IndexPage = ({ items, meta }) => {
-  const handleClick = async ({ code, url }) => {
+  const handleClick = async ({ name, code }) => {
     await navigator.clipboard.writeText(code)
 
-    window.open(url)
+    toast.success(`Code for ${name} copied to clipboard! 🎉`)
   }
 
   return (
@@ -170,6 +205,10 @@ const IndexPage = ({ items, meta }) => {
       </Head>
 
       <Root>
+        <Hero>
+          <Hero.Image src="/hero.jpg" alt="Sponsorships Hero" />
+        </Hero>
+
         <Header>
           <Header.Heading>
             Get <Header.Heading.Strong>sponsorships</Header.Heading.Strong>
@@ -192,8 +231,11 @@ const IndexPage = ({ items, meta }) => {
           {items.map(({ name, code, url }) => (
             <Item
               key={name}
+              href={url}
+              target="_blank"
+              rel="noopener noreferrer"
               onClick={() => {
-                handleClick({ name, code, url })
+                handleClick({ name, code })
               }}
             >
               <Item.Code>{code ? code : "Direct link 🔗"}</Item.Code>
@@ -202,6 +244,8 @@ const IndexPage = ({ items, meta }) => {
             </Item>
           ))}
         </Main>
+
+        <Toaster />
       </Root>
     </>
   )
