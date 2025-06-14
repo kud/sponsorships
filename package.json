@@ -27,5 +27,8 @@
   },
   "devDependencies": {
     "webpack-merge": "6.0.1"
+  },
+  "engines": {
+    "node": ">=22.0.0"
   }
 }
